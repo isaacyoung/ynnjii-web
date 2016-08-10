@@ -1,0 +1,13 @@
+.settings/
+.classpath
+.project
+**/classes
+**/lib
+**/.project
+**/.classpath
+**/build/
+**/out/
+**/.settings/
+/logs/
+**/bin
+.idea/
