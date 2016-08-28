@@ -1,5 +1,4 @@
 .settings/
-.gradle/
 .classpath
 .project
 **/classes
@@ -7,7 +6,6 @@
 **/.project
 **/.classpath
 **/build/
-**/gradle/
 **/out/
 **/.settings/
 /logs/
