@@ -1,4 +1,4 @@
-package com.ynnjii.controller;
+package com.ynnjii.controller.front;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created on 2016/8/28.
  */
 @Controller
-public class HelloWorldController {
+public class IndexController {
 
-    @RequestMapping("/hello")
+    @RequestMapping("/")
     public String hello(Model model) {
         model.addAttribute("message","Hello world!");
-        return "hello";
+        return "index";
     }
 }
