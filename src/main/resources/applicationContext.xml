@@ -18,9 +18,10 @@
     <!-- freemarker config -->
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/view/"/>
-        <property name="defaultEncoding" value="utf-8"/>
+        <property name="defaultEncoding" value="UTF-8"/>
     </bean>
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="contentType" value="text/html;charset=UTF-8"/>
         <property name="cache" value="true"/>
         <property name="prefix" value=""/>
         <property name="suffix" value=".html"/>

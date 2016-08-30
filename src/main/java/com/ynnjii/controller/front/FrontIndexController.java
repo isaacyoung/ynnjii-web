@@ -13,7 +13,7 @@ public class FrontIndexController {
 
     @RequestMapping("/")
     public String hello(Model model) {
-        model.addAttribute("message","Hello world!");
+        model.addAttribute("message","Hello world! 中国");
         return "front/index";
     }
 }
