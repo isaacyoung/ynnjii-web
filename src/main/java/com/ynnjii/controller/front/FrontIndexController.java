@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created on 2016/8/28.
  */
 @Controller
-public class IndexController {
+public class FrontIndexController {
 
     @RequestMapping("/")
     public String hello(Model model) {
         model.addAttribute("message","Hello world!");
-        return "index";
+        return "front/index";
     }
 }
