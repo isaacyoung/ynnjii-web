@@ -1,0 +1,9 @@
+
+技术选型：
+主框架：springmvc
+展示层：freemarker
+数据层：mybatis
+数据库：mysql
+前端：jquery,bootstrap
+权限：spring security
+工作流：activity
