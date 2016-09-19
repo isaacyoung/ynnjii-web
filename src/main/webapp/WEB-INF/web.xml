@@ -4,7 +4,7 @@
       version="3.0">
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml</param-value>
+		<param-value>classpath:spring-mvc.xml</param-value>
 	</context-param>
 
 	<servlet>

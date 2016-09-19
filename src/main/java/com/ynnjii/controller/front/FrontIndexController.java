@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class FrontIndexController {
 
-    @RequestMapping("/")
+    @RequestMapping("/index")
     public String hello(Model model) {
         model.addAttribute("message","Hello world! 中国");
         return "front/index";

@@ -16,6 +16,7 @@
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven />
 
+    <mvc:view-controller path="/" view-name="forward:/index"/>
 
     <!-- freemarker config -->
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
