@@ -1,8 +1,8 @@
 package com.ynnjii.controller.admin;
 
-import com.ynnjii.entity.SysUser;
-import com.ynnjii.service.SysUserService;
+import com.ynnjii.common.BaseController;
 import com.ynnjii.common.PageResult;
+import com.ynnjii.service.SysUserService;
 import com.ynnjii.vo.SysUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,15 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
 /**
  * @author yzh
  * Created on 2016/9/20.
  */
 @Controller
 @RequestMapping("/admin/user")
-public class AdminSysUserController {
+public class AdminSysUserController extends BaseController {
 
     @Autowired
     private SysUserService sysUserService;
@@ -35,7 +33,7 @@ public class AdminSysUserController {
             PageResult result =  sysUserService.selectList(vo);
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("",e);
         }
         return new PageResult();
     }

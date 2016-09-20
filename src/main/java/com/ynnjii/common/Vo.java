@@ -4,7 +4,7 @@ package com.ynnjii.common;
  * @author yzh
  * Created on 2016/9/20.
  */
-public class CommonVo {
+public class Vo {
     private Integer pageNumber = 1; // 当前页
     private Integer pageIndex;  // 当前页起始位置
     private Integer pageSize = 10; // 每页数量
