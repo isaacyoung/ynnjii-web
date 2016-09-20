@@ -1,10 +1,10 @@
 package com.ynnjii.impl;
 
+import com.ynnjii.common.PageResult;
 import com.ynnjii.entity.SysUser;
 import com.ynnjii.mapper.SysUserMapper;
 import com.ynnjii.service.SysUserService;
 import com.ynnjii.vo.SysUserVo;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,8 +49,11 @@ public class SysUserServiceImpl implements SysUserService {
      * 查询多记录
      */
     @Transactional(readOnly = true)
-    public List<SysUser> selectList(SysUserVo vo) {
-        return sysUserMapper.selectList(vo);
+    public PageResult selectList(SysUserVo vo) {
+        PageResult pageResult = new PageResult();
+        pageResult.setTotal(sysUserMapper.selectCount(vo));
+        pageResult.setRows(sysUserMapper.selectList(vo));
+        return pageResult;
     }
 
     /**

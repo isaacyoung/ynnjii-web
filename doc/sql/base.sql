@@ -22,3 +22,4 @@ CREATE TABLE `sys_user` (
   `del_flag` INT  NOT NULL DEFAULT 0 COMMENT '删除标记 0正常 1删除',
   PRIMARY KEY (`id`))
 COMMENT = '用户表';
+

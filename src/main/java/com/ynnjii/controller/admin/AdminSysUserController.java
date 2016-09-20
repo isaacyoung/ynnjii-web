@@ -2,6 +2,7 @@ package com.ynnjii.controller.admin;
 
 import com.ynnjii.entity.SysUser;
 import com.ynnjii.service.SysUserService;
+import com.ynnjii.common.PageResult;
 import com.ynnjii.vo.SysUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,14 +30,14 @@ public class AdminSysUserController {
 
     @ResponseBody
     @RequestMapping(value = "/getData")
-    public List<SysUser> getData(SysUserVo vo) {
+    public PageResult getData(SysUserVo vo) {
         try {
-            List<SysUser> list =  sysUserService.selectList(vo);
-            return list;
+            PageResult result =  sysUserService.selectList(vo);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ArrayList<>();
+        return new PageResult();
     }
 
 

@@ -1,8 +1,10 @@
 package com.ynnjii.vo;
 
+import com.ynnjii.common.CommonVo;
+
 import java.util.Date;
 
-public class SysUserVo {
+public class SysUserVo extends CommonVo {
     /**
      * id
      */

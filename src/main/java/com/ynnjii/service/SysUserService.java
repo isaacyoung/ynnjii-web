@@ -1,8 +1,8 @@
 package com.ynnjii.service;
 
+import com.ynnjii.common.PageResult;
 import com.ynnjii.entity.SysUser;
 import com.ynnjii.vo.SysUserVo;
-import java.util.List;
 
 public interface SysUserService {
 
@@ -29,7 +29,7 @@ public interface SysUserService {
     /**
      * 查询多记录
      */
-    List<SysUser> selectList(SysUserVo vo);
+    PageResult selectList(SysUserVo vo);
 
     /**
      * 查询记录数

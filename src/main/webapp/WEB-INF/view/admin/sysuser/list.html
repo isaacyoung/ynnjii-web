@@ -16,12 +16,21 @@
 </head>
 <body>
 <div class="container">
-    <table data-toggle="table" data-url="/admin/user/getData">
+    <table data-toggle="table"
+           data-url="/admin/user/getData"
+           data-pagination="true"
+           data-side-pagination="server"
+           data-page-list="[5, 10, 20, 50, 100, 200]"
+           data-search="true"
+    >
         <thead>
         <tr>
-            <th data-field="id">Item ID</th>
-            <th data-field="name">Item Name</th>
-            <th data-field="phone">Item Price</th>
+            <th data-field="id">ID</th>
+            <th data-field="loginName">登录名</th>
+            <th data-field="name">姓名</th>
+            <th data-field="mobile">手机</th>
+            <th data-field="photo">用户头像</th>
+            <th data-field="loginFlag">状态</th>
         </tr>
         </thead>
     </table>

@@ -159,13 +159,16 @@
     select
     <include refid="Base_Column_List" />
     from sys_user
+    where 1=1
     <include refid="queryWhere" />
-    order by id desc 
+    order by id desc
+    limit ${pageIndex},${pageSize}
   </select>
 
   <select id="selectCount" parameterType="com.ynnjii.vo.SysUserVo" resultType="java.lang.Integer">
     select count(*)
     from sys_user
+    where 1=1
     <include refid="queryWhere" />
   </select>
 
