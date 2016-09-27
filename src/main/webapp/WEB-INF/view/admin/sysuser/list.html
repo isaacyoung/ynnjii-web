@@ -12,29 +12,91 @@
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/bootstrap-table.min.js"></script>
     <script src="/assets/js/bootstrap-table-zh-CN.js"></script>
+    <script src="/assets/js/layer/layer.js"></script>
 
 </head>
 <body>
 <div class="container">
-    <table data-toggle="table"
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <label>姓名：</label>
+            <input type="text" class="form-control" name="name" placeholder="请输入姓名">
+        </div>
+    </form>
+    <div id="toolbar" class="btn-group">
+        <button type="button" class="btn btn-default" id="addBtn" title="添加">
+            <i class="glyphicon glyphicon-plus"></i>
+        </button>
+        <button type="button" class="btn btn-default" id="allDelBtn" title="删除">
+            <i class="glyphicon glyphicon-trash"></i>
+        </button>
+    </div>
+
+    <table id="dataTable"
+           data-toolbar="#toolbar"
+           data-toggle="table"
            data-url="/admin/user/getData"
            data-pagination="true"
            data-side-pagination="server"
-           data-page-list="[5, 10, 20, 50, 100, 200]"
-           data-search="true"
+           data-query-params-type=""
+           data-click-to-select="true"
     >
         <thead>
         <tr>
-            <th data-field="id">ID</th>
-            <th data-field="loginName">登录名</th>
-            <th data-field="name">姓名</th>
-            <th data-field="mobile">手机</th>
-            <th data-field="photo">用户头像</th>
-            <th data-field="loginFlag">状态</th>
+            <th data-checkbox="true"></th>
+            <th data-field="loginName" data-align="center">登录名</th>
+            <th data-field="name" data-align="center">姓名</th>
+            <th data-field="mobile" data-align="center">手机</th>
+            <th data-field="photo" data-align="center">用户头像</th>
+            <th data-field="loginFlag" data-align="center">状态</th>
+            <th data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
         </tr>
         </thead>
     </table>
 </div>
-
 </body>
+
+<script>
+    $(function () {
+        $("#addBtn").click(function () {
+            layer.open({
+                type: 2,
+                title: '添加用户',
+                maxmin: true,
+                shadeClose: true, //点击遮罩关闭层
+                area : ['800px' , '520px'],
+                content: '/admin/user/add'
+            });
+        });
+
+        $("#allDelBtn").click(function () {
+            console.log("allDelBtn");
+        });
+    });
+
+    // 操作按钮
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="edit ml10" href="javascript:void(0)" title="修改">',
+            '<i class="glyphicon glyphicon-edit"></i>',
+            '</a>',
+            '<a class="remove ml10" href="javascript:void(0)" title="删除">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    // 操作事件
+    window.operateEvents = {
+        'click .edit': function (e, value, row, index) {
+            alert('You click edit icon, row: ' + JSON.stringify(row));
+            console.log(value, row, index);
+        },
+        'click .remove': function (e, value, row, index) {
+            alert('You click remove icon, row: ' + JSON.stringify(row));
+            console.log(value, row, index);
+        }
+    };
+</script>
+
 </html>

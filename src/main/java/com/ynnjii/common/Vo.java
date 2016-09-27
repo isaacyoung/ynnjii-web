@@ -6,8 +6,9 @@ package com.ynnjii.common;
  */
 public class Vo {
     private Integer pageNumber = 1; // 当前页
-    private Integer pageIndex;  // 当前页起始位置
     private Integer pageSize = 10; // 每页数量
+
+    private Integer pageIndex;  // 当前页起始位置
 
     public Integer getPageNumber() {
         return pageNumber;

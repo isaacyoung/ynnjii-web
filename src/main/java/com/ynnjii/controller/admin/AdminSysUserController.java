@@ -38,5 +38,9 @@ public class AdminSysUserController extends BaseController {
         return new PageResult();
     }
 
+    @RequestMapping(value = "/add")
+    public String add(Model model) {
+        return "admin/sysuser/add";
+    }
 
 }
