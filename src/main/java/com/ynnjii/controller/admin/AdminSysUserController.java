@@ -43,4 +43,8 @@ public class AdminSysUserController extends BaseController {
         return "admin/sysuser/add";
     }
 
+    @RequestMapping(value = "/edit")
+    public String edit(Model model) {
+        return "admin/sysuser/add";
+    }
 }
