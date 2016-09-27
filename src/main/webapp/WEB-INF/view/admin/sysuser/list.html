@@ -13,6 +13,7 @@
     <script src="/assets/js/bootstrap-table.min.js"></script>
     <script src="/assets/js/bootstrap-table-zh-CN.js"></script>
     <script src="/assets/js/layer/layer.js"></script>
+    <script src="/assets/js/jquery.serializejson.js"></script>
 
 </head>
 <body>
@@ -62,7 +63,7 @@
 <script>
     $(function () {
         $("#searchBtn").click(function(){
-            var data = $("#toolForm").serialize();
+            var data = $("#toolForm").serializeJson();
             $("#dataTable").bootstrapTable('refresh',{query:data});
         });
 
