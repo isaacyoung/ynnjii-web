@@ -1,4 +1,9 @@
 
+
+CREATE DATABASE `ynnjiiweb` DEFAULT CHARACTER SET utf8 ;
+
+use `ynnjiiweb`;
+
 CREATE TABLE `sys_user` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
   `office_id` INT NULL COMMENT '部门id',
