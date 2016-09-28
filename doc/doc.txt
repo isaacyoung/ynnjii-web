@@ -7,7 +7,7 @@
 数据层：mybatis
 数据库：mysql
 数据库连接池：Druid
-权限：spring security
+权限：Apache Shiro
 工作流：activity
 日志：log4j2
 

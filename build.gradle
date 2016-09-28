@@ -18,6 +18,10 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-aop', version: '4.3.2.RELEASE'
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.2.RELEASE'
 
+    compile group: 'org.apache.shiro', name: 'shiro-web', version: '1.3.2'
+    compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.3.2'
+    compile group: 'org.apache.shiro', name: 'shiro-ehcache', version: '1.3.2'
+
     compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.2'
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.3'
