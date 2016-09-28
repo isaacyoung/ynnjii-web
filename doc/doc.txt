@@ -1,6 +1,7 @@
 
 技术选型：
 
+后台：
 主框架：springmvc
 展示层：freemarker
 数据层：mybatis
@@ -10,4 +11,9 @@
 工作流：activity
 日志：log4j2
 
-前端：jquery,bootstrap,layer
+前端：
+主框架：jquery
+布局：bootstrap
+表格：bootstrap table
+弹出框：layer
+验证：jquery.validate

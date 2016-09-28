@@ -31,9 +31,6 @@
         <button type="button" class="btn btn-default" id="addBtn" title="添加">
             <i class="glyphicon glyphicon-plus"></i>
         </button>
-        <button type="button" class="btn btn-default" id="allDelBtn" title="删除">
-            <i class="glyphicon glyphicon-trash"></i>
-        </button>
     </div>
 
     <table id="dataTable"
@@ -47,7 +44,7 @@
     >
         <thead>
         <tr>
-            <th data-checkbox="true"></th>
+            <th data-align="center" data-formatter="indexFormatter">序号</th>
             <th data-field="loginName" data-align="center">登录名</th>
             <th data-field="name" data-align="center">姓名</th>
             <th data-field="mobile" data-align="center">手机</th>
@@ -63,8 +60,7 @@
 <script>
     $(function () {
         $("#searchBtn").click(function(){
-            var data = $("#toolForm").serializeJson();
-            $("#dataTable").bootstrapTable('refresh',{query:data});
+            reloadTable();
         });
 
         $("#addBtn").click(function () {
@@ -78,21 +74,12 @@
             });
         });
 
-        $("#allDelBtn").click(function () {
-            var arr = $("#dataTable").bootstrapTable('getSelections');
-            if (arr.length == 0) {
-                layer.msg('请选择要删除的数据');
-                return false;
-            }
-
-            var ids = new Array();
-            for (var i=0; i< arr.length; i++) {
-                ids[i] = arr[i].id;
-            }
-
-            $("#dataTable").bootstrapTable('remove',{field:'id',values:ids});
-        });
     });
+
+    // 序号
+    function indexFormatter(value,row,index) {
+        return index + 1;
+    }
 
     // 操作按钮
     function operateFormatter(value, row, index) {
@@ -108,6 +95,8 @@
 
     // 操作事件
     window.operateEvents = {
+
+        // 编辑
         'click .edit': function (e, value, row, index) {
             layer.open({
                 type: 2,
@@ -115,15 +104,52 @@
                 maxmin: true,
                 shadeClose: true,
                 area : ['800px' , '520px'],
-                content: '/admin/user/edit'
+                content: '/admin/user/edit?id=' + row.id
             });
         },
+
+        // 删除
         'click .remove': function (e, value, row, index) {
-            var ids = new Array();
-            ids[0] = row.id;
-            $("#dataTable").bootstrapTable('remove',{field:'id',values:ids});
+            layer.confirm('确定删除该数据？',function(index){
+                layer.close(index);
+
+                $.ajax({
+                    url:'/admin/user/del',
+                    type:'POST',
+                    data:{id:row.id,"rdm":Math.random},
+                    dataType:'json',
+                    success:function(data) {
+                        if (data.code == 1) {
+                            layer.msg(data.msg);
+                            setTimeout(function () {
+                                parent.reloadTable();
+                            },1000);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    }
+                });
+            });
         }
     };
+
+    // 关闭编辑页面弹框
+    function layerClose() {
+        layer.closeAll('iframe');
+    }
+
+    // 刷新数据
+    function reloadTable() {
+        var data = $("#toolForm").serializeJson();
+        $("#dataTable").bootstrapTable('refresh',{query:data});
+    }
+
+    // 刷新数据 来自编辑页面
+    function reloadPage() {
+        layerClose();
+        reloadTable();
+    }
+
 </script>
 
 </html>

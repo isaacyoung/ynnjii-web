@@ -2,13 +2,19 @@ package com.ynnjii.controller.admin;
 
 import com.ynnjii.common.BaseController;
 import com.ynnjii.common.PageResult;
+import com.ynnjii.entity.SysUser;
 import com.ynnjii.service.SysUserService;
 import com.ynnjii.vo.SysUserVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author yzh
@@ -44,7 +50,54 @@ public class AdminSysUserController extends BaseController {
     }
 
     @RequestMapping(value = "/edit")
-    public String edit(Model model) {
+    public String edit(@Param("id") Integer id, Model model) {
+        if (id == null) {
+
+        }
+        SysUser sysUser = sysUserService.selectById(id);
+        model.addAttribute("sysUser",sysUser);
         return "admin/sysuser/add";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/save")
+    public Map save(SysUser entry) {
+        Map map = new HashMap<String,Object>();
+        try {
+            if (entry.getId() == null) {
+                entry.setLoginFlag(0);
+                entry.setDelFlag(0);
+                entry.setCreateBy(1);
+                entry.setCreateDate(new Date());
+                entry.setUpdateBy(1);
+                entry.setUpdateDate(new Date());
+                sysUserService.insertData(entry);
+            } else {
+                sysUserService.updateData(entry);
+            }
+            map.put("code",1);
+            map.put("msg","保存成功");
+        } catch (Exception e) {
+            logger.error("",e);
+            map.put("code",0);
+            map.put("msg","保存失败");
+        }
+        return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/del")
+    public Map del(@Param("id") Integer id) {
+        Map map = new HashMap<String,Object>();
+        try {
+            sysUserService.deleteData(id);
+            map.put("code",1);
+            map.put("msg","删除成功");
+        } catch (Exception e) {
+            logger.error("",e);
+            map.put("code",0);
+            map.put("msg","删除失败");
+        }
+        return map;
     }
 }
