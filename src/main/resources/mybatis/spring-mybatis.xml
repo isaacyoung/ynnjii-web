@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+    <!-- 配置数据源 使用的是Druid数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"
+          p:maxIdle="${mysql.minIdle}"
+          p:driverClassName="${mysql.driver}"
+          p:url="${mysql.url}"
+          p:username="${mysql.username}"
+          p:password="${mysql.password}"
+          p:maxWait="${mysql.maxWait}"
+          p:initialSize="${mysql.initialSize}"
+          p:maxActive="${mysql.maxActive}"
+          p:minIdle="${mysql.minIdle}"
+          p:defaultAutoCommit="${mysql.defaultAutoCommit}"
+          p:timeBetweenEvictionRunsMillis="${mysql.timeBetweenEvictionRunsMillis}"
+          p:minEvictableIdleTimeMillis="${mysql.minEvictableIdleTimeMillis}"
+          p:removeAbandoned="${mysql.removeAbandoned}"
+          p:removeAbandonedTimeout="${mysql.removeAbandonedTimeout}"
+          p:logAbandoned="${mysql.logAbandoned}"
+          p:testWhileIdle="${mysql.testWhileIdle}"
+          p:testOnBorrow="${mysql.testOnBorrow}"
+          p:testOnReturn="${mysql.testOnReturn}"
+          p:validationQuery="${mysql.validationQuery}"
+    />
+
+    <!-- myBatis文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:configLocation="classpath:mybatis/mybaits-setting.xml"
+          p:mapperLocations="classpath:mapper/*/*.xml"
+    />
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ynnjii.*.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 注解方式配置事物 -->
+     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+</beans>

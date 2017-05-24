@@ -9,7 +9,7 @@
 数据库连接池：Druid
 权限：Apache Shiro
 工作流：activity
-日志：log4j2
+日志：slf4j
 
 前端：
 主框架：jquery
