@@ -1,10 +1,9 @@
 package com.ynnjii.sys.controller;
 
+import com.ynnjii.base.ApiResult;
 import com.ynnjii.base.BaseController;
-import com.ynnjii.base.PageResult;
 import com.ynnjii.sys.domain.SysUser;
 import com.ynnjii.sys.service.SysUserService;
-import com.ynnjii.sys.dto.SysUserVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author yzh
@@ -34,14 +32,14 @@ public class AdminSysUserController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/getData")
-    public PageResult getData(SysUserVo vo) {
+    public Object getData(SysUser user) {
         try {
-            PageResult result =  sysUserService.selectList(vo);
-            return result;
+            List<SysUser> result =  sysUserService.select(user);
+            return ApiResult.newInstance().returnSuccessResult(result);
         } catch (Exception e) {
             logger.error("",e);
         }
-        return new PageResult();
+        return ApiResult.newInstance().returnFailureResult();
     }
 
     @RequestMapping(value = "/add")
@@ -61,8 +59,7 @@ public class AdminSysUserController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/save")
-    public Map save(SysUser entry) {
-        Map map = new HashMap<String,Object>();
+    public Object save(SysUser entry) {
         try {
             if (entry.getId() == null) {
                 entry.setLoginFlag(0);
@@ -71,33 +68,26 @@ public class AdminSysUserController extends BaseController {
                 entry.setCreateDate(new Date());
                 entry.setUpdateBy(1);
                 entry.setUpdateDate(new Date());
-                sysUserService.insertData(entry);
+                sysUserService.insert(entry);
             } else {
-                sysUserService.updateData(entry);
+                sysUserService.update(entry);
             }
-            map.put("code",1);
-            map.put("msg","保存成功");
+            return ApiResult.newInstance().returnSuccessResult("保存成功");
         } catch (Exception e) {
             logger.error("",e);
-            map.put("code",0);
-            map.put("msg","保存失败");
         }
-        return map;
+        return ApiResult.newInstance().returnFailureResult();
     }
 
     @ResponseBody
     @RequestMapping(value = "/del")
-    public Map del(@Param("id") Integer id) {
-        Map map = new HashMap<String,Object>();
+    public Object del(@Param("id") Integer id) {
         try {
-            sysUserService.deleteData(id);
-            map.put("code",1);
-            map.put("msg","删除成功");
+            sysUserService.deleteById(id);
+            return ApiResult.newInstance().returnSuccessResult("删除成功");
         } catch (Exception e) {
             logger.error("",e);
-            map.put("code",0);
-            map.put("msg","删除失败");
         }
-        return map;
+        return ApiResult.newInstance().returnFailureResult();
     }
 }
