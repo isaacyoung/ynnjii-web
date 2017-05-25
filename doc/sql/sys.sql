@@ -25,6 +25,7 @@ CREATE TABLE `sys_user` (
   `update_date` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remarks` varchar(255)  DEFAULT NULL COMMENT '备注信息',
   `del_flag` INT  NOT NULL DEFAULT 0 COMMENT '删除标记 0正常 1删除',
+  `salt` varchar(50)  NULL COMMENT '标识',
   PRIMARY KEY (`id`))
 COMMENT = '用户表';
 

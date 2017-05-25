@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ynnjii.sys.dao.SysRoleDepartmentMapper">
+  <resultMap id="BaseResultMap" type="com.ynnjii.sys.domain.SysRoleDepartment">
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+  </resultMap>
+  
+  <select id="select" parameterType="com.ynnjii.sys.domain.SysRoleDepartment" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role_department
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="roleId != null and roleId !=  -1 ">
+        role_id = #{roleId,jdbcType=INTEGER}
+      </if>
+      <if test="departmentId != null and departmentId !=  -1 ">
+        and department_id = #{departmentId,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </select>
+  
+  <insert id="insert" keyProperty="id" parameterType="com.ynnjii.sys.domain.SysRoleDepartment" useGeneratedKeys="true">
+    insert into sys_role_department (role_id, department_id) values
+    <foreach collection="list" index="index" item="item" separator=",">
+       (#{item.roleId,jdbcType=INTEGER}, #{item.departmentId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  
+  <update id="update" parameterType="com.ynnjii.sys.domain.SysRoleDepartment">
+    <foreach close="" collection="list" index="index" item="item" open="" separator=";">
+      update sys_role_department
+      <set>
+        <if test="item.roleId != null and item.roleId !=  -1 ">
+          role_id = #{item.roleId,jdbcType=INTEGER},
+        </if>
+        <if test="item.departmentId != null and item.departmentId !=  -1 ">
+          department_id = #{item.departmentId,jdbcType=INTEGER}
+        </if>
+      </set>
+    </foreach>
+  </update>
+  
+  <delete id="delete" parameterType="com.ynnjii.sys.domain.SysRoleDepartment">
+    delete from sys_role_department
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="roleId != null and roleId !=  -1 ">
+        role_id = #{roleId,jdbcType=INTEGER}
+      </if>
+      <if test="departmentId != null and departmentId !=  -1 ">
+        and department_id = #{departmentId,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </delete>
+  
+</mapper>

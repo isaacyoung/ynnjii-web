@@ -18,7 +18,7 @@
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven />
 
-    <mvc:view-controller path="/" view-name="forward:/admin/login"/>
+    <mvc:view-controller path="/" view-name="forward:/admin/index"/>
 
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

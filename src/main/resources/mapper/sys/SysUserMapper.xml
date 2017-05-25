@@ -3,7 +3,7 @@
 <mapper namespace="com.ynnjii.sys.dao.SysUserMapper">
   <resultMap id="BaseResultMap" type="com.ynnjii.sys.domain.SysUser">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="office_id" jdbcType="INTEGER" property="officeId" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
     <result column="login_name" jdbcType="VARCHAR" property="loginName" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="no" jdbcType="VARCHAR" property="no" />
@@ -22,12 +22,13 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="remarks" jdbcType="VARCHAR" property="remarks" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, office_id, login_name, password, no, name, email, phone, mobile, user_type, photo,
-    login_ip, login_date, login_flag, create_by, create_date, update_by, update_date,
-    remarks, del_flag
+    id, department_id, login_name, password, no, name, email, phone, mobile, user_type,
+    photo, login_ip, login_date, login_flag, create_by, create_date, update_by, update_date,
+    remarks, del_flag, salt
   </sql>
 
   <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -50,8 +51,8 @@
       <if test="id != null and id !=  -1 ">
         id = #{id,jdbcType=INTEGER}
       </if>
-      <if test="officeId != null and officeId !=  -1 ">
-        and office_id = #{officeId,jdbcType=INTEGER}
+      <if test="departmentId != null and departmentId !=  -1 ">
+        and department_id = #{departmentId,jdbcType=INTEGER}
       </if>
       <if test="loginName != null and loginName !=  ''">
         and login_name = #{loginName,jdbcType=VARCHAR}
@@ -107,25 +108,30 @@
       <if test="delFlag != null and delFlag !=  -1 ">
         and del_flag = #{delFlag,jdbcType=INTEGER}
       </if>
+      <if test="salt != null and salt !=  ''">
+        and salt = #{salt,jdbcType=VARCHAR}
+      </if>
     </trim>
   </select>
 
   <insert id="insert" keyProperty="id" parameterType="com.ynnjii.sys.domain.SysUser" useGeneratedKeys="true">
-    insert into sys_user (id, office_id, login_name,
+    insert into sys_user (id, department_id, login_name,
     password, no, name,
     email, phone, mobile,
     user_type, photo, login_ip,
     login_date, login_flag, create_by,
     create_date, update_by, update_date,
-    remarks, del_flag) values
+    remarks, del_flag, salt
+    ) values
     <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.officeId,jdbcType=INTEGER}, #{item.loginName,jdbcType=VARCHAR},
+      (#{item.id,jdbcType=INTEGER}, #{item.departmentId,jdbcType=INTEGER}, #{item.loginName,jdbcType=VARCHAR},
       #{item.password,jdbcType=VARCHAR}, #{item.no,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR},
       #{item.email,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.mobile,jdbcType=VARCHAR},
       #{item.userType,jdbcType=INTEGER}, #{item.photo,jdbcType=VARCHAR}, #{item.loginIp,jdbcType=VARCHAR},
       #{item.loginDate,jdbcType=TIMESTAMP}, #{item.loginFlag,jdbcType=INTEGER}, #{item.createBy,jdbcType=INTEGER},
       #{item.createDate,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=INTEGER}, #{item.updateDate,jdbcType=TIMESTAMP},
-      #{item.remarks,jdbcType=VARCHAR}, #{item.delFlag,jdbcType=INTEGER})
+      #{item.remarks,jdbcType=VARCHAR}, #{item.delFlag,jdbcType=INTEGER}, #{item.salt,jdbcType=VARCHAR}
+      )
     </foreach>
   </insert>
 
@@ -133,8 +139,8 @@
     <foreach close="" collection="list" index="index" item="item" open="" separator=";">
       update sys_user
       <set>
-        <if test="item.officeId != null and item.officeId !=  -1 ">
-          office_id = #{item.officeId,jdbcType=INTEGER},
+        <if test="item.departmentId != null and item.departmentId !=  -1 ">
+          department_id = #{item.departmentId,jdbcType=INTEGER},
         </if>
         <if test="item.loginName != null and item.loginName !=  ''">
           login_name = #{item.loginName,jdbcType=VARCHAR},
@@ -188,7 +194,10 @@
           remarks = #{item.remarks,jdbcType=VARCHAR},
         </if>
         <if test="item.delFlag != null and item.delFlag !=  -1 ">
-          del_flag = #{item.delFlag,jdbcType=INTEGER}
+          del_flag = #{item.delFlag,jdbcType=INTEGER},
+        </if>
+        <if test="item.salt != null and item.salt !=  ''">
+          salt = #{item.salt,jdbcType=VARCHAR}
         </if>
       </set>
       where id = #{item.id,jdbcType=INTEGER}
@@ -201,8 +210,8 @@
       <if test="id != null and id !=  -1 ">
         id = #{id,jdbcType=INTEGER}
       </if>
-      <if test="officeId != null and officeId !=  -1 ">
-        and office_id = #{officeId,jdbcType=INTEGER}
+      <if test="departmentId != null and departmentId !=  -1 ">
+        and department_id = #{departmentId,jdbcType=INTEGER}
       </if>
       <if test="loginName != null and loginName !=  ''">
         and login_name = #{loginName,jdbcType=VARCHAR}
@@ -258,7 +267,75 @@
       <if test="delFlag != null and delFlag !=  -1 ">
         and del_flag = #{delFlag,jdbcType=INTEGER}
       </if>
+      <if test="salt != null and salt !=  ''">
+        and salt = #{salt,jdbcType=VARCHAR}
+      </if>
     </trim>
   </delete>
+
+  <select id="findRoles" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT
+	ro.name
+    FROM
+        (
+            SELECT
+                role_id
+            FROM
+                sys_user_role
+            WHERE
+                user_id = (
+                    SELECT
+                        id
+                    FROM
+                        sys_user
+                    WHERE
+                        login_name = #{userName,jdbcType=VARCHAR}
+                )
+        ) ud
+    LEFT JOIN sys_role ro ON ro.id = ud.role_id;
+  </select>
+
+  <select id="findPermissions" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT rp.menu_id
+    FROM
+    (SELECT ro.id
+    FROM
+    (SELECT role_id
+    FROM sys_user_role
+    WHERE user_id=
+    (SELECT id
+    FROM sys_user
+    WHERE login_name=#{userName,jdbcType=VARCHAR})) ud
+    LEFT JOIN sys_role ro ON ro.id=ud.role_id) ri
+    LEFT JOIN sys_role_menu rp ON rp.role_id=ri.id ;
+  </select>
+
+  <select id="findMenuByUsername" parameterType="java.lang.String" resultMap="com.ynnjii.sys.dao.SysMenuMapper.BaseResultMap">
+    SELECT
+    *
+    FROM
+    (SELECT
+    rp.menu_id
+    FROM
+    (SELECT
+    ro.id
+    FROM
+    (SELECT
+    role_id
+    FROM
+    sys_user_role
+    WHERE
+    user_id = (SELECT
+    id
+    FROM
+    sys_user
+    WHERE
+    login_name =#{userName,jdbcType=VARCHAR})) ud
+    LEFT JOIN sys_role ro ON ro.id = ud.role_id) ri
+    LEFT JOIN sys_role_menu rp ON rp.role_id = ri.id) cr,
+    sys_menu m
+    WHERE
+    cr.menu_id = m.id
+  </select>
 
 </mapper>

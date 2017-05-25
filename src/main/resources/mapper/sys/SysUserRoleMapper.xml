@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ynnjii.sys.dao.SysUserRoleMapper">
+  <resultMap id="BaseResultMap" type="com.ynnjii.sys.domain.SysUserRole">
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+  </resultMap>
+  
+  <select id="select" parameterType="com.ynnjii.sys.domain.SysUserRole" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user_role
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="userId != null and userId !=  -1 ">
+        user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="roleId != null and roleId !=  -1 ">
+        and role_id = #{roleId,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </select>
+  
+  <insert id="insert" keyProperty="id" parameterType="com.ynnjii.sys.domain.SysUserRole" useGeneratedKeys="true">
+    insert into sys_user_role (user_id, role_id) values
+    <foreach collection="list" index="index" item="item" separator=",">
+       (#{item.userId,jdbcType=INTEGER}, #{item.roleId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  
+  <update id="update" parameterType="com.ynnjii.sys.domain.SysUserRole">
+    <foreach close="" collection="list" index="index" item="item" open="" separator=";">
+      update sys_user_role
+      <set>
+        <if test="item.userId != null and item.userId !=  -1 ">
+          user_id = #{item.userId,jdbcType=INTEGER},
+        </if>
+        <if test="item.roleId != null and item.roleId !=  -1 ">
+          role_id = #{item.roleId,jdbcType=INTEGER}
+        </if>
+      </set>
+    </foreach>
+  </update>
+  
+  <delete id="delete" parameterType="com.ynnjii.sys.domain.SysUserRole">
+    delete from sys_user_role
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="userId != null and userId !=  -1 ">
+        user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="roleId != null and roleId !=  -1 ">
+        and role_id = #{roleId,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </delete>
+  
+</mapper>
