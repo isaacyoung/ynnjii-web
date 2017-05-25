@@ -275,7 +275,7 @@
 
   <select id="findRoles" parameterType="java.lang.String" resultType="java.lang.String">
     SELECT
-	ro.name
+	ro.en_name
     FROM
         (
             SELECT
@@ -296,7 +296,7 @@
   </select>
 
   <select id="findPermissions" parameterType="java.lang.String" resultType="java.lang.String">
-    SELECT rp.menu_id
+    SELECT rp.menu_code
     FROM
     (SELECT ro.id
     FROM

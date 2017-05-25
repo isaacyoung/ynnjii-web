@@ -16,6 +16,9 @@ public class SysRole {
     /** 角色名称 */
     private String name;
 
+    /** 角色编码 */
+    private String enName;
+
     /** 角色类型 */
     private Byte roleType;
 
@@ -58,6 +61,16 @@ public class SysRole {
     /** 设置角色名称 */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /** 获得角色编码 */
+    public String getEnName() {
+        return enName;
+    }
+
+    /** 设置角色编码 */
+    public void setEnName(String enName) {
+        this.enName = enName;
     }
 
     /** 获得角色类型 */

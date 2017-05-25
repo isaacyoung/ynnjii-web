@@ -32,6 +32,7 @@ COMMENT = '用户表';
 CREATE TABLE `sys_role` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
   `name` VARCHAR(100) NULL COMMENT '角色名称',
+  `en_name` VARCHAR(100) NULL COMMENT '角色编码',
   `role_type` TINYINT(4) NULL COMMENT '角色类型',
   `remark` VARCHAR(300) NULL COMMENT '备注',
   `status` TINYINT(4) NULL COMMENT '状态 0初始 1正常',

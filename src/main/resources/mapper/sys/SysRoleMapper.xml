@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.ynnjii.sys.domain.SysRole">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="en_name" jdbcType="VARCHAR" property="enName" />
     <result column="role_type" jdbcType="TINYINT" property="roleType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -15,8 +16,8 @@
   </resultMap>
   
   <sql id="Base_Column_List">
-    id, name, role_type, remark, status, create_by, create_date, update_by, update_date, 
-    del_flag
+    id, name, en_name, role_type, remark, status, create_by, create_date, update_by, 
+    update_date, del_flag
   </sql>
   
   <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -41,6 +42,9 @@
       </if>
       <if test="name != null and name !=  ''">
         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="enName != null and enName !=  ''">
+        and en_name = #{enName,jdbcType=VARCHAR}
       </if>
       <if test="roleType != null and roleType !=  -1 ">
         and role_type = #{roleType,jdbcType=TINYINT}
@@ -70,15 +74,15 @@
   </select>
   
   <insert id="insert" keyProperty="id" parameterType="com.ynnjii.sys.domain.SysRole" useGeneratedKeys="true">
-    insert into sys_role (id, name, role_type, 
-      remark, status, create_by, 
-      create_date, update_by, update_date, 
-      del_flag) values
+    insert into sys_role (id, name, en_name, 
+      role_type, remark, status, 
+      create_by, create_date, update_by, 
+      update_date, del_flag) values
     <foreach collection="list" index="index" item="item" separator=",">
-       (#{item.id,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.roleType,jdbcType=TINYINT}, 
-        #{item.remark,jdbcType=VARCHAR}, #{item.status,jdbcType=TINYINT}, #{item.createBy,jdbcType=INTEGER}, 
-        #{item.createDate,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=INTEGER}, #{item.updateDate,jdbcType=TIMESTAMP}, 
-        #{item.delFlag,jdbcType=INTEGER})
+       (#{item.id,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.enName,jdbcType=VARCHAR}, 
+        #{item.roleType,jdbcType=TINYINT}, #{item.remark,jdbcType=VARCHAR}, #{item.status,jdbcType=TINYINT}, 
+        #{item.createBy,jdbcType=INTEGER}, #{item.createDate,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=INTEGER}, 
+        #{item.updateDate,jdbcType=TIMESTAMP}, #{item.delFlag,jdbcType=INTEGER})
     </foreach>
   </insert>
   
@@ -88,6 +92,9 @@
       <set>
         <if test="item.name != null and item.name !=  ''">
           name = #{item.name,jdbcType=VARCHAR},
+        </if>
+        <if test="item.enName != null and item.enName !=  ''">
+          en_name = #{item.enName,jdbcType=VARCHAR},
         </if>
         <if test="item.roleType != null and item.roleType !=  -1 ">
           role_type = #{item.roleType,jdbcType=TINYINT},
@@ -126,6 +133,9 @@
       </if>
       <if test="name != null and name !=  ''">
         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="enName != null and enName !=  ''">
+        and en_name = #{enName,jdbcType=VARCHAR}
       </if>
       <if test="roleType != null and roleType !=  -1 ">
         and role_type = #{roleType,jdbcType=TINYINT}
