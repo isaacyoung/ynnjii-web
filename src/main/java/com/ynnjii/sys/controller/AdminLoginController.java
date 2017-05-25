@@ -2,6 +2,7 @@ package com.ynnjii.sys.controller;
 
 import com.ynnjii.base.ApiResult;
 import com.ynnjii.base.BaseController;
+import com.ynnjii.utils.ImageCodeUtils;
 import com.ynnjii.utils.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -14,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
 /**
  * 后台登录页
  * @author yzh
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/admin")
 public class AdminLoginController extends BaseController {
+    public static final String VER_CODE = "VER_CODE";
 
     @RequestMapping(value = "/login")
     public String login(Model model) {
@@ -29,7 +36,7 @@ public class AdminLoginController extends BaseController {
     }
 
     @RequestMapping(value = "/logining")
-    public String save(Model model,
+    public String save(Model model,HttpServletRequest request,
                        @RequestParam(value = "username", required = false) String userName,
                        @RequestParam(value = "remember", required = false) boolean remember,
                        @RequestParam(value = "captcha", required = false) String captcha,
@@ -38,6 +45,20 @@ public class AdminLoginController extends BaseController {
                 StringUtils.isNullOrEmpty(password) ) {
             logger.info("填写为空");
             model.addAttribute("loginErrorMsg", "用户名|密码|验证码 填写不能为空");
+            return "admin/login";
+        }
+
+        if (request.getSession().getAttribute(VER_CODE) == null) {
+            model.addAttribute("loginErrorMsg", "服务器异常，请稍后重试");
+            return "admin/login";
+        }
+
+        Boolean isResponseCorrect = captcha.equalsIgnoreCase(request.getSession().getAttribute(VER_CODE).toString());
+
+        if (!isResponseCorrect) {
+            logger.info("验证码错误 提交为 ：{} ,正确为:{} ", captcha, request.getSession().getAttribute(VER_CODE));
+            model.addAttribute("loginErrorMsg", "验证码错误");
+            model.addAttribute("account", userName);
             return "admin/login";
         }
 
@@ -68,6 +89,25 @@ public class AdminLoginController extends BaseController {
         }
 
         return "redirect:/";
+    }
+
+    @RequestMapping("/captcha")
+    public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("Cache-Control", "no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0L);
+        response.setContentType("image/jpeg");
+
+        //生成随机字串
+        String verifyCode = ImageCodeUtils.generateVerifyCode(4);
+        //存入会话session
+        HttpSession session = request.getSession(true);
+        //删除以前的
+        session.removeAttribute(VER_CODE);
+        session.setAttribute(VER_CODE, verifyCode.toLowerCase());
+        //生成图片
+        int w = 117, h = 48;
+        ImageCodeUtils.outputImage(w, h, response.getOutputStream(), verifyCode);
     }
 
     @RequestMapping("/logout")
