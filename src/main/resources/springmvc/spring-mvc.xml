@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
@@ -20,15 +20,21 @@
 
     <mvc:view-controller path="/" view-name="forward:/admin/index"/>
 
+    <!-- 配置freeMarker的模板路径 -->
+    <bean class="com.ynnjii.utils.freemarker.ShiroTagFreeMarkerConfigurer"
+          p:defaultEncoding="UTF-8"
+          p:templateLoaderPath="/WEB-INF/view/">
+    </bean>
+
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- one of the properties available; the maximum file size in bytes -->
-        <property name="maxUploadSize" value="100000"/>
+        <property name="maxUploadSize" value="5242880"/>
     </bean>
 
 
     <!-- freemarker config -->
-    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/view/"/>
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="freemarkerSettings">
@@ -36,7 +42,7 @@
                 <prop key="classic_compatible">true</prop>
             </props>
         </property>
-    </bean>
+    </bean>-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="contentType" value="text/html;charset=UTF-8"/>
         <property name="cache" value="true"/>
