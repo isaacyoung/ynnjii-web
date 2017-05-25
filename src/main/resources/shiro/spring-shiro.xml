@@ -115,6 +115,7 @@
             <value>
                 /assets/**=anon
                 /admin/login=anon
+                /admin/logining=anon
                 /**=authc
             </value>
         </property>

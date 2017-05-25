@@ -32,6 +32,7 @@ public class AdminLoginController extends BaseController {
 
     @RequestMapping(value = "/login")
     public String login(Model model) {
+        System.out.println("23423342");
         return "admin/login";
     }
 

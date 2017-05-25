@@ -15,10 +15,45 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <mvc:default-servlet-handler/>
-    <mvc:annotation-driven />
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/img/**" location="/img/" />
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/fonts/**" location="/fonts/" />
 
-    <mvc:view-controller path="/" view-name="forward:/admin/index"/>
+    <!-- 注解驱动 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <ref bean="fastJsonHttpMessageConverter" />
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+        <property name="fastJsonConfig">
+            <bean class="com.alibaba.fastjson.support.config.FastJsonConfig">
+                <property name="features">
+                    <list>
+                        <value>AllowArbitraryCommas</value>
+                        <value>DisableCircularReferenceDetect</value>
+                    </list>
+                </property>
+                <property name="serializerFeatures">
+                    <list>
+                        <value>WriteMapNullValue</value>
+                        <value>WriteNullListAsEmpty</value>
+                        <value>WriteNullStringAsEmpty</value>
+                        <value>WriteNullNumberAsZero</value>
+                        <value>WriteNullBooleanAsFalse</value>
+                    </list>
+                </property>
+                <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"></property>
+            </bean>
+        </property>
+    </bean>
 
     <!-- 配置freeMarker的模板路径 -->
     <bean class="com.ynnjii.utils.freemarker.ShiroTagFreeMarkerConfigurer"
