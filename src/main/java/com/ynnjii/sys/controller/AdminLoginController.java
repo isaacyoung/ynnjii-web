@@ -31,7 +31,15 @@ public class AdminLoginController extends BaseController {
     public static final String VER_CODE = "VER_CODE";
 
     @RequestMapping(value = "/login")
-    public String login(Model model) {
+    public String login(Model model,
+                        @RequestParam(required = false) String loginErrorMsg,
+                        @RequestParam(required = false) String username) {
+        if (!StringUtils.isNullOrEmpty(loginErrorMsg)) {
+            model.addAttribute("loginErrorMsg",loginErrorMsg);
+        }
+        if (!StringUtils.isNullOrEmpty(username)) {
+            model.addAttribute("username",username);
+        }
         return "admin/login";
     }
 
@@ -45,12 +53,12 @@ public class AdminLoginController extends BaseController {
                 StringUtils.isNullOrEmpty(password) ) {
             logger.info("填写为空");
             model.addAttribute("loginErrorMsg", "用户名|密码|验证码 填写不能为空");
-            return "admin/login";
+            return "redirect:/admin/login";
         }
 
-        if (request.getSession().getAttribute(VER_CODE) == null) {
+        /*if (request.getSession().getAttribute(VER_CODE) == null) {
             model.addAttribute("loginErrorMsg", "服务器异常，请稍后重试");
-            return "admin/login";
+            return "redirect:/admin/login";
         }
 
         Boolean isResponseCorrect = captcha.equalsIgnoreCase(request.getSession().getAttribute(VER_CODE).toString());
@@ -58,9 +66,9 @@ public class AdminLoginController extends BaseController {
         if (!isResponseCorrect) {
             logger.info("验证码错误 提交为 ：{} ,正确为:{} ", captcha, request.getSession().getAttribute(VER_CODE));
             model.addAttribute("loginErrorMsg", "验证码错误");
-            model.addAttribute("account", userName);
-            return "admin/login";
-        }
+            model.addAttribute("username", userName);
+            return "redirect:/admin/login";
+        }*/
 
         UsernamePasswordToken token = new UsernamePasswordToken();
         token.setUsername(userName);
@@ -74,21 +82,21 @@ public class AdminLoginController extends BaseController {
         } catch (UnknownAccountException e) {
             logger.error("user:" + userName + "[登录失败]",e);
             model.addAttribute("loginErrorMsg", "密码或者账号有问题!");
-            model.addAttribute("account", userName);
-            return "admin/login";
+            model.addAttribute("username", userName);
+            return "redirect:/admin/login";
         }catch (DisabledAccountException a){
             logger.error("user:" + userName + "[登录失败]",a);
             model.addAttribute("loginErrorMsg", "该账号已禁用!");
-            model.addAttribute("account", userName);
-            return "admin/login";
+            model.addAttribute("username", userName);
+            return "redirect:/admin/login";
         }catch (Exception e){
             logger.error("user:" + userName + "[登录失败]",e);
             model.addAttribute("loginErrorMsg", "密码或者账号有问题!");
-            model.addAttribute("account", userName);
-            return "admin/login";
+            model.addAttribute("username", userName);
+            return "redirect:/admin/login";
         }
 
-        return "redirect:/";
+        return "redirect:/admin/index";
     }
 
     @RequestMapping("/captcha")

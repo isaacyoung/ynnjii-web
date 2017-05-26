@@ -5,6 +5,10 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
   </resultMap>
+
+  <sql id="Base_Column_List">
+    user_id, role_id
+  </sql>
   
   <select id="select" parameterType="com.ynnjii.sys.domain.SysUserRole" resultMap="BaseResultMap">
     select 
@@ -26,7 +30,7 @@
        (#{item.userId,jdbcType=INTEGER}, #{item.roleId,jdbcType=INTEGER})
     </foreach>
   </insert>
-  
+
   <update id="update" parameterType="com.ynnjii.sys.domain.SysUserRole">
     <foreach close="" collection="list" index="index" item="item" open="" separator=";">
       update sys_user_role

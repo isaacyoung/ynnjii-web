@@ -31,9 +31,11 @@
 
     <!-- 凭证匹配器 -->
     <bean id="credentialsMatcher"
-          class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+          class="com.ynnjii.utils.shiro.RetryLimitHashedCredentialsMatcher">
+        <constructor-arg ref="cacheManager"/>
         <property name="hashAlgorithmName" value="md5" />
         <property name="hashIterations" value="2" />
+        <property name="storedCredentialsHexEncoded" value="true"/>
     </bean>
 
     <!-- Realm实现 -->
