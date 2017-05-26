@@ -19,6 +19,7 @@
     <mvc:resources mapping="/img/**" location="/img/" />
     <mvc:resources mapping="/js/**" location="/js/" />
     <mvc:resources mapping="/fonts/**" location="/fonts/" />
+    <mvc:resources mapping="/bower_components/**" location="/bower_components/" />
 
     <!-- 注解驱动 -->
     <mvc:annotation-driven>

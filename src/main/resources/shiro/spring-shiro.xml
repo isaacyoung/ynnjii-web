@@ -119,6 +119,7 @@
                 /img/**=anon
                 /js/**=anon
                 /fonts/**=anon
+                /bower_components/**=anon
                 /admin/login=anon
                 /admin/logining=anon
                 /**=authc
