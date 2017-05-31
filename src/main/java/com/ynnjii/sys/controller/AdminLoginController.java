@@ -119,17 +119,15 @@ public class AdminLoginController extends BaseController {
     }
 
     @RequestMapping("/logout")
-    @ResponseBody
-    public Object logout() {
+    public String logout() {
         try {
             Subject currentUser = SecurityUtils.getSubject();
             currentUser.logout();
-            return ApiResult.newInstance().returnSuccessResult("注销成功");
         } catch (Exception e) {
             logger.error("注销异常",e);
         }
 
-        return ApiResult.newInstance().returnFailureResult();
+        return "redirect:/admin/login";
     }
 
 }
