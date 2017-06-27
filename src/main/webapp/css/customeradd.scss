@@ -1,0 +1,83 @@
+.form-horizontal{
+  width:100%;
+  padding-top:50px;
+  overflow: hidden;
+  padding-left:15%;
+  .form-group{
+    margin-bottom:40px;
+    /*label标签属性*/
+    .control-label{
+      width:150px;
+    }
+  }
+  h6{
+    width:83%;
+    height:40px;
+    background:#ccc;
+    line-height: 40px;
+    padding-left:20px;
+    font-size:18px;
+    font-weight: bold;
+    color:#fff;
+    border-radius: 10px;
+    margin-bottom: 45px;
+  }
+  .p_left{
+    margin-left: 20px;
+  }
+  .p_right{
+    margin-left: 153px;
+  }
+  .ipt_width{
+    width:139.5%;
+  }
+  .ipt_width_1{
+    width:104.5%;
+  }
+  .ipt_width_2{
+    width:104.5%;
+  }
+  .t_margin{
+    margin-top:80px;
+    button{
+      width:80px;
+    }
+  }
+  /*图片上传样式*/
+  #avatar1 {
+    width: 130px;
+    height: 130px;
+  }
+  #avatar2 {
+    width: 130px;
+    height: 130px;
+  }
+  .desc {
+    color: #999;
+  }
+
+  .wrapper {
+    position: relative;
+
+  }
+  .middle{
+    width:130px;
+    height:130px;
+  }
+  .preview{
+    width:130px;
+    height:130px;
+    margin-left:150px;
+    margin-top:-190px;
+    margin-bottom:30px;
+  }
+  .wrapper .portrait-file {
+    opacity: 0;
+    position: absolute;
+    left: 165px;
+    top: -10px;
+    width:130px;
+    height:130px;
+    cursor: pointer;
+  }
+}

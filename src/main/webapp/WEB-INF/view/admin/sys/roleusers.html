@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>角色管理</title>
+
+    <link href="${baseRoot!}/components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${baseRoot!}/components/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${baseRoot!}/components/jstree/themes/default/style.min.css" />
+    <link rel="stylesheet" href="${baseRoot!}/css/box.css">
+    <script src="${baseRoot!}/js/jquery-3.2.1.min.js"></script>
+
+</head>
+<style>
+    body{
+        width:100%;
+        height:100%;
+        overflow: hidden;
+    }
+</style>
+<body>
+<div class="container-fluid box">
+    <form id="userForm" class="form-horizontal" role="form" style="margin-top:20px;">
+        <input type="hidden" name="roleId" value="${(sysRole.id)!}">
+        <div class="form-group">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-6">
+                <div id="userTree"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">保存</button>
+                <button type="button" class="btn btn-default" onclick="parent.layerClose();">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="${baseRoot!}/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="${baseRoot!}/js/jquery.validate.js"></script>
+<script src="${baseRoot!}/components/layer/layer.js"></script>
+<script src="${baseRoot!}/components/jstree/jstree.min.js"></script>
+<script>
+    $(function () {
+
+        $("#userForm").validate({
+            rules:{
+//                name:'required',
+//                enName:'required'
+            },
+            messages:{
+//                name:'登录名不能为空',
+//                enName:'密码不能为空'
+            },
+            submitHandler:function (form) {
+                var data = $(form).serialize();
+                var selectIds = $('#userTree').jstree(true).get_selected();
+                if (selectIds) {
+                    var userIds = new Array();
+                    for(var i=0; i< selectIds.length;i++) {
+                        if (selectIds[i].indexOf("d") == -1) {
+                            userIds.push(selectIds[i]);
+                        }
+                    }
+                }
+
+                data += '&userIds='+userIds.join(",");
+
+                $.ajax({
+                    url:'${baseRoot!}/admin/role/saveusers',
+                    type:'POST',
+                    data:data,
+                    dataType:'json',
+                    success:function(data) {
+                        if (data.code == 0) {
+                            layer.msg(data.msg);
+                            setTimeout(function () {
+                                parent.reloadPage();
+                            },1000);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    }
+                });
+            }
+        });
+
+        var userIds = '${userIds!}';
+        $('#userTree').jstree({
+            'core' : {
+                'data': {
+                    'url': '${baseRoot!}/admin/user/tree?userIds='+userIds,
+                    'data': function (node) {
+                        return {'id': node.id};
+                    }
+                }
+            },
+            "checkbox" : {
+                "keep_selected_style" : false,
+                "cascade":'down',
+                "three_state":false
+            },
+            'plugins' : [ "checkbox"]
+        });
+
+    });
+
+</script>
+</body>
+</html>

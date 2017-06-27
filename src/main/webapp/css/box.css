@@ -1,0 +1,5 @@
+/*解决container-fluid左右偏移距离*/
+.box{
+    margin:0;
+    padding:0;
+}

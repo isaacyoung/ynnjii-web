@@ -1,5 +1,7 @@
 package com.ynnjii.utils;
 
+import java.util.List;
+
 /**
  * 项目名称：网升OA
  * 类描述：字符串
@@ -17,4 +19,14 @@ public class StringUtils {
     public static boolean isNullOrEmpty(String string) {
         return string == null || string.length() == 0;
     }
+
+    /**
+     * 判断空
+     * @param list
+     * @return
+     */
+    public static boolean isNullOrEmpty(List list) {
+        return list == null || list.size() == 0;
+    }
+
 }

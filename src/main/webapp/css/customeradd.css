@@ -1,0 +1,66 @@
+@charset "UTF-8";
+.form-horizontal {
+  width: 100%;
+  padding-top: 50px;
+  overflow: hidden;
+  padding-left: 15%;
+  /*图片上传样式*/ }
+  .form-horizontal .form-group {
+    margin-bottom: 40px;
+    /*label标签属性*/ }
+    .form-horizontal .form-group .control-label {
+      width: 150px; }
+  .form-horizontal h6 {
+    width: 83%;
+    height: 40px;
+    background: #ccc;
+    line-height: 40px;
+    padding-left: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 10px;
+    margin-bottom: 45px; }
+  .form-horizontal .p_left {
+    margin-left: 20px; }
+  .form-horizontal .p_right {
+    margin-left: 153px; }
+  .form-horizontal .ipt_width {
+    width: 139.5%; }
+  .form-horizontal .ipt_width_1 {
+    width: 104.5%; }
+  .form-horizontal .ipt_width_2 {
+    width: 104.5%; }
+  .form-horizontal .t_margin {
+    margin-top: 80px; }
+    .form-horizontal .t_margin button {
+      width: 80px; }
+  .form-horizontal #avatar1 {
+    width: 130px;
+    height: 130px; }
+  .form-horizontal #avatar2 {
+    width: 130px;
+    height: 130px; }
+  .form-horizontal .desc {
+    color: #999; }
+  .form-horizontal .wrapper {
+    position: relative; }
+  .form-horizontal .middle {
+    width: 130px;
+    height: 130px; }
+  .form-horizontal .preview {
+    width: 130px;
+    height: 130px;
+    margin-left: 150px;
+    margin-top: -190px;
+    margin-bottom: 30px; }
+  .form-horizontal .wrapper .portrait-file {
+    opacity: 0;
+    position: absolute;
+    left: 165px;
+    top: -10px;
+    width: 130px;
+    height: 130px;
+    cursor: pointer; }
+
+/*# sourceMappingURL=customeradd.css.map */

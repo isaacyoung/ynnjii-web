@@ -1,10 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<link rel="stylesheet" href="${baseRoot!}/css/header.css">
+<div class="header">
+    <p>车到山前 <small>后台管理系统</small></p>
+    <div class="btn-group select_div">
+        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            ${(currentUser.name)!} <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="javascript:void(0);" id="userDetailLink">详细信息</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="javascript:void(0);" id="userPasswordLink">修改密码</a></li>
+        </ul>
+    </div>
+    <div style="float:right;" class="return"><a href="${baseRoot!}/admin/logout">退出</a> </div>
+</div>
 
-</body>
-</html>
+<script>
+    $(function () {
+        $("#userDetailLink").click(function () {
+            layer.open({
+                type: 2,
+                title: '用户详情',
+                maxmin: true,
+                shadeClose: true,
+                area : ['800px' , '520px'],
+                content: '${baseRoot!}/admin/user/detail'
+            });
+        });
+
+        $("#userPasswordLink").click(function () {
+            layer.open({
+                type: 2,
+                title: '修改密码',
+                maxmin: true,
+                shadeClose: true,
+                area : ['800px' , '520px'],
+                content: '${baseRoot!}/admin/user/password'
+            });
+        });
+
+    });
+</script>

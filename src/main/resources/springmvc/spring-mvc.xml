@@ -84,6 +84,7 @@
         <property name="cache" value="true"/>
         <property name="prefix" value=""/>
         <property name="suffix" value=".html"/>
+        <property name="viewClass" value="com.cdsq.manage.utils.freemarker.CustomerFreeMarkerView"/>
     </bean>
 
     <!--开启Shiro的注解(如@RequiresRoles，@RequiresPermissions)，需借助SpringAOP扫描使用Shiro注解的类，并在必要时进行安全逻辑验证-->

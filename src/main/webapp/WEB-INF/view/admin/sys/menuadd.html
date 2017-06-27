@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>菜单管理</title>
+
+    <link href="${baseRoot!}/components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${baseRoot!}/components/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${baseRoot!}/css/box.css">
+    <script src="${baseRoot!}/js/jquery-3.2.1.min.js"></script>
+
+</head>
+<style>
+    body{
+        width:100%;
+        height:100%;
+        overflow: hidden;
+    }
+</style>
+<body>
+<div class="container-fluid box">
+    <form id="userForm" class="form-horizontal" role="form" style="margin-top:20px;">
+        <input type="hidden" name="id" value="${(sysMenu.id)!}">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">上级菜单：</label>
+            <div class="col-sm-9">
+                <#if parentMenu??>
+                    <input type="hidden" name="parentId" value="${parentMenu.id}"/> ${parentMenu.name}
+                <#else>根目录
+                </#if>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">名称：</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="name" placeholder="名称" value="${(sysMenu.name)!}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">编码：</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="menuCode" placeholder="编码" value="${(sysMenu.menuCode)!}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">url：</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="url" placeholder="url" value="${(sysMenu.url)!}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">类型：</label>
+            <div class="col-sm-9">
+                <label class="radio-inline">
+                    <input type="radio" name="menuType" value="0" checked> 菜单
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="menuType" value="1"> 按钮
+                </label>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">排序：</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="sort" placeholder="排序" value="${(sysMenu.sort)!}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">保存</button>
+                <button type="button" class="btn btn-default" onclick="parent.layerClose();">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="${baseRoot!}/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="${baseRoot!}/js/jquery.validate.js"></script>
+<script src="${baseRoot!}/components/layer/layer.js"></script>
+<script>
+    $(function () {
+
+        var menuType = '${(sysMenu.menuType)!}';
+        $("[name='menuType'][value='"+menuType+"']").prop('checked',true);
+
+        $("#userForm").validate({
+            rules:{
+                name:'required',
+                menuCode:'required'
+            },
+            messages:{
+                name:'名称不能为空',
+                menuCode:'编码不能为空'
+            },
+            submitHandler:function (form) {
+                var data = $(form).serialize();
+                $.ajax({
+                    url:'${baseRoot!}/admin/menu/save',
+                    type:'POST',
+                    data:data,
+                    dataType:'json',
+                    success:function(data) {
+                        if (data.code == 0) {
+                            layer.msg(data.msg);
+                            setTimeout(function () {
+                                parent.reloadPage();
+                            },1000);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

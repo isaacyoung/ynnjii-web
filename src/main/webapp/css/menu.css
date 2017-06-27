@@ -1,0 +1,74 @@
+ul {
+	list-style-type: none;
+	width:200px;
+}
+a {
+	text-decoration: none;
+}
+
+/** =======================
+ * Contenedor Principal
+ ===========================*/
+ .accordion {
+ 	width: 200px;
+ 	background: #FFF;
+ }
+.accordion .link {
+	width:200px;
+	cursor: pointer;
+	display: block;
+	padding: 15px 0 15px 0;
+	color: #4D4D4D;
+	font-size: 14px;
+	font-weight: 700;
+	border-bottom: 1px solid #CCC;
+	position: relative;
+	text-align: center;
+}
+.accordion .link a{
+	color:#000;
+	text-decoration: none;
+}
+.accordion .link a:hover{
+	color:#b63b4d;
+}
+
+.accordion li:last-child .link {
+	border-bottom: 0;
+}
+.accordion li.open .link {
+	color: #b63b4d;
+}
+/**
+ * Submenu
+ -----------------------------*/
+ .submenu {
+ 	display: none;
+ 	background: #f9f9f9;
+ 	font-size: 14px;
+ 	width:200px;
+ }
+
+ .submenu li {
+ 	width:200px;
+ 	border-bottom: 1px solid #ccc;
+	margin-left:-40px;
+ }
+
+ .submenu a {
+ 	display: block;
+ 	text-decoration: none;
+ 	line-height: 50px;
+ 	text-align: center;
+ }
+
+ .submenu a:hover {
+ 	background: #fff;
+	 color:#b63b4d;
+ }
+ .on{
+	 background:#fff;
+	 color:#b63b4d;
+	 font-weight: bold;
+ }
+

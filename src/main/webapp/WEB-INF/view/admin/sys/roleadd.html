@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>角色管理</title>
+
+    <link href="${baseRoot!}/components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${baseRoot!}/components/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${baseRoot!}/css/box.css">
+    <script src="${baseRoot!}/js/jquery-3.2.1.min.js"></script>
+
+</head>
+<style>
+    body{
+        width:100%;
+        height:100%;
+        overflow: hidden;
+    }
+</style>
+<body>
+<div class="container-fluid box">
+    <form id="userForm" class="form-horizontal" role="form" style="margin-top:20px;">
+        <input type="hidden" name="id" value="${(sysRole.id)!}">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">角色名称：</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="name" placeholder="角色名称" value="${(sysRole.name)!}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">编码：</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="enName" placeholder="编码" value="${(sysRole.enName)!}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">状态：</label>
+            <div class="col-sm-9">
+                <label class="radio-inline">
+                    <input type="radio" name="status" value="1" checked> 启用
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="status" value="0"> 禁用
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">备注：</label>
+            <div class="col-sm-9">
+                <textarea class="form-control" name="remark">${(sysRole.remark)!}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">保存</button>
+                <button type="button" class="btn btn-default" onclick="parent.layerClose();">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="${baseRoot!}/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="${baseRoot!}/js/jquery.validate.js"></script>
+<script src="${baseRoot!}/components/layer/layer.js"></script>
+<script>
+    $(function () {
+
+        var status = '${(sysRole.status)!}';
+        $("[name='status'][value='"+status+"']").prop('checked',true);
+
+        $("#userForm").validate({
+            rules:{
+                name:'required',
+                enName:'required'
+            },
+            messages:{
+                name:'角色名称不能为空',
+                enName:'编码不能为空'
+            },
+            submitHandler:function (form) {
+                var data = $(form).serialize();
+                $.ajax({
+                    url:'${baseRoot!}/admin/role/save',
+                    type:'POST',
+                    data:data,
+                    dataType:'json',
+                    success:function(data) {
+                        if (data.code == 0) {
+                            layer.msg(data.msg);
+                            setTimeout(function () {
+                                parent.reloadPage();
+                            },1000);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

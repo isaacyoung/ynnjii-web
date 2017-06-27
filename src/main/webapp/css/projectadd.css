@@ -1,0 +1,79 @@
+.form-horizontal {
+    width: 100%;
+    padding-top: 50px;
+    overflow: hidden;
+    padding-left: 15%;
+}
+.form-horizontal h6 {
+    width: 83%;
+    height: 40px;
+    background: #ccc;
+    line-height: 40px;
+    padding-left: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 10px;
+    margin-bottom: 45px;
+}
+.form-horizontal .form-group {
+    margin-bottom: 40px;
+}
+.form-horizontal .form-group .control-label {
+    width: 150px;
+}
+.form-horizontal .p_left {
+    margin-left: 20px;
+}
+.form-horizontal .p_left_1 {
+    margin-left: 30px;
+}
+.form-horizontal .p_right {
+    margin-left: 153px;
+}
+.form-horizontal .ipt_width {
+    width: 139.5%;
+}
+.form-horizontal .ipt_width_1 {
+    width: 104.5%;
+}
+.form-horizontal .ipt_width_2 {
+    width: 104.5%;
+}
+.form-horizontal .ipt_width_3 {
+    width: 102.3%;
+}
+.form-horizontal .t_margin {
+    margin-top: 80px;
+}
+/*
+.form-horizontal .avatar3 {
+    width: 130px;
+    height: 130px;
+}
+.form-horizontal .desc {
+    color: #999;
+}
+.form-horizontal .wrapper {
+    position: relative;
+}
+.form-horizontal .middle {
+    width: 130px;
+    height: 130px;
+}
+.form-horizontal .preview {
+    width: 130px;
+    height: 130px;
+    margin-left: 150px;
+    margin-top: -190px;
+    margin-bottom: 30px;
+}
+.form-horizontal .wrapper .portrait-file {
+    opacity: 0;
+    position: absolute;
+    left: 165px;
+    top: -10px;
+    width: 130px;
+    height: 130px;
+    cursor: pointer;
+}*/

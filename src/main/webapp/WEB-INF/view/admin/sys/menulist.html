@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>菜单管理</title>
+
+    <link href="${baseRoot!}/components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${baseRoot!}/components/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${baseRoot!}/components/jstree/themes/default/style.min.css" />
+    <link rel="stylesheet" href="${baseRoot!}/css/box.css">
+    <script src="${baseRoot!}/js/jquery-3.2.1.min.js"></script>
+
+</head>
+<style>
+    body{
+        width:100%;
+        height:100%;
+        overflow-x: hidden;
+    }
+</style>
+<body>
+<div class="container-fluid box">
+    <#include "/admin/include/head.html" />
+    <div class="row">
+        <div class="col-md-2">
+            <#include "/admin/include/menu.html" />
+        </div>
+        <div class="col-md-9">
+
+            <div id="toolbar" class="btn-group">
+                <button type="button" class="btn btn-default" id="addBtn" title="添加">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </button>
+                <button type="button" class="btn btn-default" id="editBtn" title="修改">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </button>
+                <button type="button" class="btn btn-default" id="delBtn" title="删除">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+            </div>
+
+            <div id="tree_container"></div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="${baseRoot!}/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="${baseRoot!}/components/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="${baseRoot!}/components/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="${baseRoot!}/js/jquery.serializeJson.js"></script>
+<script src="${baseRoot!}/components/layer/layer.js"></script>
+<script src="${baseRoot!}/components/jstree/jstree.min.js"></script>
+<script>
+    $(function () {
+
+        $("#addBtn").click(function () {
+            var ids = $('#tree_container').jstree(true).get_selected();
+            var id = '';
+            if (ids && ids.length > 0) {
+                id = ids[0];
+            }
+
+            layer.open({
+                type: 2,
+                title: '添加菜单',
+                maxmin: true,
+                shadeClose: true,
+                area : ['800px' , '520px'],
+                content: '${baseRoot!}/admin/menu/add?id='+id
+            });
+        });
+
+        $("#editBtn").click(function () {
+            var ids = $('#tree_container').jstree(true).get_selected();
+            var id = '';
+            if (ids.length == 0) {
+                layer.msg("请选择要编辑的菜单");
+                return;
+            }
+            id = ids[0];
+
+            layer.open({
+                type: 2,
+                title: '编辑菜单',
+                maxmin: true,
+                shadeClose: true,
+                area : ['800px' , '520px'],
+                content: '${baseRoot!}/admin/menu/edit?id='+id
+            });
+        });
+
+        $("#delBtn").click(function () {
+            var ids = $('#tree_container').jstree(true).get_selected();
+            var id = '';
+            if (ids.length == 0) {
+                layer.msg("请选择要删除的菜单");
+                return;
+            }
+            id = ids[0];
+
+            $.ajax({
+                url:'${baseRoot!}/admin/menu/del',
+                type:'POST',
+                data:{id:id,"rdm":Math.random},
+                dataType:'json',
+                success:function(data) {
+                    if (data.code == 0) {
+                        layer.msg(data.msg);
+                        setTimeout(function () {
+                            reloadTree();
+                        },1000);
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        });
+
+        $("#left_menus a").each(function () {
+            if ($(this).text() == '菜单管理') {
+                $(this).addClass("active");
+                return false;
+            }
+        });
+
+        $('#tree_container').jstree({
+            'core' : {
+                'data': {
+                    'url': '${baseRoot!}/admin/menu/tree',
+                    'data': function (node) {
+                        return {'id': node.id};
+                    }
+                }
+            }
+        });
+
+
+    });
+
+    // 关闭编辑页面弹框
+    function layerClose() {
+        layer.closeAll('iframe');
+    }
+
+    // 刷新数据
+    function reloadTree() {
+        $('#tree_container').jstree(true).refresh();
+    }
+
+    // 刷新数据 来自编辑页面
+    function reloadPage() {
+        layerClose();
+        reloadTree();
+    }
+
+</script>
+</body>
+</html>

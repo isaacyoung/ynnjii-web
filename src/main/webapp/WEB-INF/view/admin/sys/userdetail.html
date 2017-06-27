@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户管理</title>
+
+    <link href="${baseRoot!}/components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${baseRoot!}/components/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${baseRoot!}/css/box.css">
+    <script src="${baseRoot!}/js/jquery-3.2.1.min.js"></script>
+
+</head>
+<style>
+    body{
+        width:100%;
+        height:100%;
+        overflow: hidden;
+    }
+</style>
+<body>
+<div class="container-fluid box">
+    <form id="userForm" class="form-horizontal" role="form" style="margin-top:20px;">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">部门：</label>
+            <div class="col-sm-10">
+                ${department!}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">登录名：</label>
+            <div class="col-sm-10">
+                ${(sysUser.loginName)!}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">密码：</label>
+            <div class="col-sm-10">
+                ******
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">姓名：</label>
+            <div class="col-sm-10">
+                ${(sysUser.name)!}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">工号：</label>
+            <div class="col-sm-10">
+                ${(sysUser.no)!}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">邮箱：</label>
+            <div class="col-sm-10">
+                ${(sysUser.email)!}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">电话：</label>
+            <div class="col-sm-10">
+                ${(sysUser.phone)!}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">手机：</label>
+            <div class="col-sm-10">
+               ${(sysUser.mobile)!}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">状态：</label>
+            <div class="col-sm-10">
+                <#if (sysUser.loginFlag)?? && sysUser.loginFlag ==0>启用
+                <#elseif (sysUser.loginFlag)?? && sysUser.loginFlag ==1>禁用
+                </#if>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-default" onclick="parent.layerClose();">关闭</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="${baseRoot!}/components/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

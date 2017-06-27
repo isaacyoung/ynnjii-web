@@ -19,8 +19,8 @@ public class SysRole {
     /** 角色编码 */
     private String enName;
 
-    /** 角色类型 */
-    private Byte roleType;
+    /** 数据类型 */
+    private Byte dataType;
 
     /** 备注 */
     private String remark;
@@ -73,14 +73,14 @@ public class SysRole {
         this.enName = enName;
     }
 
-    /** 获得角色类型 */
-    public Byte getRoleType() {
-        return roleType;
+    /** 获得数据类型 */
+    public Byte getDataType() {
+        return dataType;
     }
 
-    /** 设置角色类型 */
-    public void setRoleType(Byte roleType) {
-        this.roleType = roleType;
+    /** 设置数据类型 */
+    public void setDataType(Byte dataType) {
+        this.dataType = dataType;
     }
 
     /** 获得备注 */

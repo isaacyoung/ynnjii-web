@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>角色管理</title>
+
+    <link href="${baseRoot!}/components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${baseRoot!}/components/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${baseRoot!}/css/box.css">
+    <script src="${baseRoot!}/js/jquery-3.2.1.min.js"></script>
+
+</head>
+<style>
+    body{
+        width:100%;
+        height:100%;
+        overflow-x: hidden;
+    }
+</style>
+<body>
+<div class="container-fluid box">
+    <#include "/admin/include/head.html" />
+    <div class="row">
+        <div class="col-md-2">
+            <#include "/admin/include/menu.html" />
+        </div>
+        <div class="col-md-9">
+            <form id="toolForm" class="form-inline" role="form">
+                <div class="form-group">
+                    <label>角色名：</label>
+                    <input type="text" class="form-control" name="name" placeholder="请输入角色名">
+                </div>
+            </form>
+            <div id="toolbar" class="btn-group">
+                <button type="button" class="btn btn-default" id="searchBtn" title="查询">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+                <button type="button" class="btn btn-default" id="addBtn" title="添加">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </button>
+            </div>
+
+            <table id="dataTable"
+                   data-toolbar="#toolbar"
+                   data-toggle="table"
+                   data-url="${baseRoot!}/admin/role/getData"
+                   data-pagination="true"
+                   data-side-pagination="server"
+                   data-query-params-type=""
+                   data-click-to-select="true"
+            >
+                <thead>
+                <tr>
+                    <th data-align="center" data-formatter="indexFormatter">序号</th>
+                    <th data-field="name" data-align="center">角色名</th>
+                    <th data-field="enName" data-align="center">编码</th>
+                    <th data-field="status" data-align="center" data-formatter="statusFormatter">状态</th>
+                    <th data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="${baseRoot!}/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="${baseRoot!}/components/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="${baseRoot!}/components/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="${baseRoot!}/js/jquery.serializeJson.js"></script>
+<script src="${baseRoot!}/components/layer/layer.js"></script>
+<script>
+    $(function () {
+        $("#searchBtn").click(function(){
+            reloadTable();
+        });
+
+        $("#addBtn").click(function () {
+            layer.open({
+                type: 2,
+                title: '添加角色',
+                maxmin: true,
+                shadeClose: true,
+                area : ['800px' , '520px'],
+                content: '${baseRoot!}/admin/role/add'
+            });
+        });
+
+        $("#left_menus a").each(function () {
+            if ($(this).text() == '角色管理') {
+                $(this).addClass("active");
+                return false;
+            }
+        })
+    });
+
+    // 序号
+    function indexFormatter(value,row,index) {
+        return index + 1;
+    }
+
+    function statusFormatter(value, row, index) {
+        if (value == 1) {
+            return '启用';
+        } else {
+            return '禁用';
+        }
+    }
+
+    // 操作按钮
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="users ml10" href="javascript:void(0)" title="用户">',
+            '<i class="glyphicon glyphicon-plus"></i>',
+            '</a>',
+            '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp',
+            '<a class="permissions ml10" href="javascript:void(0)" title="权限">',
+            '<i class="glyphicon glyphicon-th"></i>',
+            '</a>',
+            '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp',
+            '<a class="edit ml10" href="javascript:void(0)" title="修改">',
+            '<i class="glyphicon glyphicon-edit"></i>',
+            '</a>',
+            '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp',
+            '<a class="remove ml10" href="javascript:void(0)" title="删除">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    // 操作事件
+    window.operateEvents = {
+
+        // 用户
+        'click .users':function (e,value,row,index) {
+            layer.open({
+                type: 2,
+                title: '关联用户',
+//                maxmin: true,
+                shadeClose: true,
+                area : ['800px' , '520px'],
+                content: '${baseRoot!}/admin/role/users?id=' + row.id
+            });
+        },
+
+        // 权限
+        'click .permissions':function (e,value,row,index) {
+            layer.open({
+                type: 2,
+                title: '设置权限',
+//                maxmin: true,
+                shadeClose: true,
+                area : ['100%' , '100%'],
+                content: '${baseRoot!}/admin/role/permissions?id=' + row.id
+            });
+        },
+
+        // 编辑
+        'click .edit': function (e, value, row, index) {
+            layer.open({
+                type: 2,
+                title: '编辑角色',
+                maxmin: true,
+                shadeClose: true,
+                area : ['800px' , '520px'],
+                content: '${baseRoot!}/admin/role/edit?id=' + row.id
+            });
+        },
+
+        // 删除
+        'click .remove': function (e, value, row, index) {
+            layer.confirm('确定删除该数据？',function(index){
+                layer.close(index);
+
+                $.ajax({
+                    url:'${baseRoot!}/admin/role/del',
+                    type:'POST',
+                    data:{id:row.id,"rdm":Math.random},
+                    dataType:'json',
+                    success:function(data) {
+                        if (data.code == 0) {
+                            layer.msg(data.msg);
+                            setTimeout(function () {
+                                parent.reloadTable();
+                            },1000);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    }
+                });
+            });
+        }
+    };
+
+    // 关闭编辑页面弹框
+    function layerClose() {
+        layer.closeAll('iframe');
+    }
+
+    // 刷新数据
+    function reloadTable() {
+        var data = $("#toolForm").serializeJson();
+        $("#dataTable").bootstrapTable('refresh',{query:data});
+    }
+
+    // 刷新数据 来自编辑页面
+    function reloadPage() {
+        layerClose();
+        reloadTable();
+    }
+
+</script>
+</body>
+</html>

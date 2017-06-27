@@ -7,14 +7,14 @@ import java.util.List;
  * Created on 2016/9/20.
  */
 public class PageResult {
-    private int total;
+    private long total;
     private List rows;
 
-    public int getTotal() {
+    public long getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 
